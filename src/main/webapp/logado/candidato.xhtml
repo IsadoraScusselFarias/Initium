@@ -8,38 +8,31 @@
 	<ui:define name="conteudo">
 		<h:form>
 			<div class="container">
-				<h:messages />
 				<div class="row">
 					<h:outputLabel value="Pesquisar" />
-					<h:inputText id="nomeUfFiltrada" value="#{ufBean.nomeUfFiltrada}" />
+					<h:inputText id="nomeCandidatoFiltrada"
+						value="#{candidatoBean.nomeCandidatoFiltrada}" />
 					<h:commandButton class="btn" value="Filtrar"
-						action="#{ufBean.listarUf}" />
+						action="#{candidatoBean.listarCandidato}" />
 				</div>
 				<div class="row">
-					<h:dataTable value="#{ufBean.list}" var="item"
-						rendered="#{not empty ufBean.list}">
+					<h:dataTable value="#{candidatoBean.list}" var="item"
+						rendered="#{not empty candidatoBean.list}">
 						<h:column>
 							<f:facet name="header">ID</f:facet>#{item.id}</h:column>
 						<h:column>
 							<f:facet name="header">Nome</f:facet>#{item.nome}</h:column>
 						<h:column>
-							<h:commandLink action="#{ufBean.editar(item)}">
-								<h:graphicImage library="imagem" name="edit.png" alt="Editar"
-									title="Editar" />
-							</h:commandLink>
-
+							<h:commandButton value="Editar" action="#{candidatoBean.editar}" />
 						</h:column>
 						<h:column>
-							<h:commandLink action="#{ufBean.remover(item)}">
-								<h:graphicImage library="imagem" name="trash.png" alt="Remover"
-									title="Remover" />
-							</h:commandLink>
-
+							<h:commandButton value="Remover"
+								action="#{candidatoBean.remover(item)}" />
 						</h:column>
 					</h:dataTable>
 				</div>
 				<div class="row">
-					<h:commandButton value="Adicionar" action="#{ufBean.novo}" />
+					<h:commandButton value="Adicionar" action="#{candidatoBean.novo}" />
 				</div>
 			</div>
 		</h:form>

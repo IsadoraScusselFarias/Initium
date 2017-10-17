@@ -3,28 +3,27 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<h:head>
-	<title>exemplo</title>
-	<h:outputStylesheet name="bootstrap.min.css" library="css"
-		type="text/css" />
-</h:head>
-<h:body>
-	<h:form>
-		<div class="container">
+<ui:composition template="base/template.xhtml">
 
-			<div class="row">
-				<h:outputLabel value="UF:" for="campo-uf" />
-				<h:inputText value="#{ufBean.uf.nome}" id="campo-uf" required="true" label="UF"  validatorMessage="Digite somente letras" maxlength="2">
-					<f:validateRegex pattern="^[a-zA-Z]+$" />
-				</h:inputText>
-				<h:message for="campo-uf" style="color:red" />
+	<ui:define name="conteudo">
+		<h:form>
+			<div class="container">
+				<div class="row">
+					<h:outputLabel value="UF:" for="campo-uf" />
+					<h:inputText value="#{ufBean.uf.nome}" id="campo-uf"
+						required="true" label="UF"
+						validatorMessage="Digite somente letras" maxlength="2">
+						<f:validateRegex pattern="^[a-zA-Z]+$" />
+					</h:inputText>
+					<h:message for="campo-uf" style="color:red" />
+				</div>
+				<div class="row">
+					<h:commandButton value="Salvar" action="#{ufBean.salvar}" />
+				</div>
 			</div>
-			<div class="row">
-				<h:commandButton value="Salvar" action="#{ufBean.salvar}" />
-			</div>
-		</div>
-	</h:form>
-	<h:outputScript name="bootstrap.min.js" library="js" async="true"
-		type="application/javascript" />
-</h:body>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+
 </html>
