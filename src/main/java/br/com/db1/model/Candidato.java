@@ -11,20 +11,20 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tbcandidato", schema="public")
 public class Candidato {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column
 	private String nome;
-	
+
 	@Column
 	private Integer telefone;
-	
+
 	@Column
 	private String email;
-	
+
 	@Column
 	private String informacoes;
 
@@ -67,7 +67,7 @@ public class Candidato {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	
+
+
 
 }

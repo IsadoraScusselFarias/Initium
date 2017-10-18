@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
@@ -15,7 +15,7 @@ import br.com.db1.dao.impl.CandidatoDao;
 import br.com.db1.model.Candidato;
 
 
-@RequestScoped
+@ApplicationScoped
 @Named
 public class CandidatoBean {
 
@@ -30,6 +30,10 @@ public class CandidatoBean {
 
 	@PostConstruct
 	public void init() {
+		zerarLista();
+	}
+
+	private void zerarLista() {
 		list = new ArrayList<Candidato>();
 	}
 
@@ -54,32 +58,38 @@ public class CandidatoBean {
 	}
 
 	public String novo() {
-		candidato = new Candidato();
+		this.candidato = new Candidato();
 		return "cadastrarCandidato";
 	}
 
-	public void salvar() {
-		if (!dao.save(candidato)) {
+	public String salvar() {
+		if (!dao.save(this.candidato)) {
 			adicionarMensagem("Erro ao cadastrar a Candidato.", FacesMessage.SEVERITY_ERROR);
+		} else {
+			adicionarMensagem("Candidato salvo com sucesso.", FacesMessage.SEVERITY_INFO);
+			nomeCandidatoFiltrada = this.candidato.getNome();
+			listarCandidato();
 		}
-
-		adicionarMensagem("Candidato salvo com sucesso.", FacesMessage.SEVERITY_INFO);
+		return "candidato";
 	}
 
-	public String editar() {
-		candidato = dao.findById(1L);
+	public String editar(Candidato candidato) {
+		this.candidato = dao.findById(candidato.getId());
 		return "cadastrarCandidato";
 	}
 
-	public void remover(Candidato candidato) {
+	public String remover(Candidato candidato) {
 		if (!dao.delete(candidato.getId())) {
-			adicionarMensagem("Erro ao remover a candidato.", FacesMessage.SEVERITY_ERROR);
+			adicionarMensagem("Erro ao remover a Candidato.", FacesMessage.SEVERITY_ERROR);
+		} else {
+			adicionarMensagem("Candidato removida com sucesso.", FacesMessage.SEVERITY_INFO);
+			listarCandidato();
 		}
-
-		adicionarMensagem("Candidato removida com sucesso.", FacesMessage.SEVERITY_INFO);
+		return "candidato";
 	}
 
 	public void listarCandidato() {
+		zerarLista();
 		if (!nomeCandidatoFiltrada.isEmpty()) {
 			list.addAll(dao.findByName(nomeCandidatoFiltrada));
 		} else {

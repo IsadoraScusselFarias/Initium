@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import br.com.db1.dao.DAO;
 import br.com.db1.dao.Transactional;
 import br.com.db1.model.Candidato;
+import br.com.db1.model.Uf;
 
 public class CandidatoDao implements DAO<Candidato> {
 
@@ -27,14 +28,18 @@ public class CandidatoDao implements DAO<Candidato> {
 
 	public List<Candidato> findByName(String nome) {
 		Query query = manager.createQuery("Select u from Candidato u where u.nome like :pNome");
-		query.setParameter("pNome", "%"+nome+"%");
+		query.setParameter("pNome", "%" + nome + "%");
 		return query.getResultList();
 	}
 
 	@Transactional
 	public boolean save(Candidato candidato) {
 		try {
-			manager.persist(candidato);
+			if (candidato.getId() != null) {
+				manager.merge(candidato);
+			} else {
+				manager.persist(candidato);
+			}
 		} catch (Exception e) {
 			return false;
 		}
@@ -52,6 +57,5 @@ public class CandidatoDao implements DAO<Candidato> {
 		return true;
 
 	}
-
 
 }
